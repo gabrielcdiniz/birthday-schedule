@@ -1,5 +1,3 @@
-import type { AWS } from "@serverless/typescript";
-
 import { handlerPath } from "@libs/handler-resolver";
 import type { SettingsFunctions } from "@t/serverless.types";
 
@@ -22,4 +20,4 @@ const settings: SettingsFunctions = {
   ],
 };
 
-export default settings as AWS["functions"];
+export default settings;

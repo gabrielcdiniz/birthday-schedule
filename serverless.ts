@@ -1,12 +1,16 @@
 import type { AWS } from "@serverless/typescript";
 
-import hello from "@functions/birthday";
+import birthday from "@functions/birthday";
 
 const serverlessConfiguration: AWS = {
   service: "birthday-schedule",
   frameworkVersion: "3",
   useDotenv: true,
-  plugins: ["serverless-esbuild", "serverless-offline", "serverless-local-schedule"],
+  plugins: [
+    "serverless-esbuild",
+    "serverless-offline",
+    "serverless-local-schedule",
+  ],
   provider: {
     name: "aws",
     runtime: "nodejs14.x",
@@ -17,10 +21,11 @@ const serverlessConfiguration: AWS = {
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1",
       NODE_OPTIONS: "--enable-source-maps --stack-trace-limit=1000",
+      DISCORD_BASE_URL: 'https://discord.com/api/webhooks'
     },
   },
   // import the function via paths
-  functions: { hello },
+  functions: { birthday },
   package: { individually: true },
   custom: {
     esbuild: {

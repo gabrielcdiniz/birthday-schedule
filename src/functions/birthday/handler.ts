@@ -18,6 +18,8 @@ const today = startOfDay(new Date());
 const checkBirthday = (user: UserModel) => {
   const birthday = parseISO(user.birthday);
 
+  console.log("DATE", { birthday });
+
   const isBirthday =
     getDate(today) === getDate(birthday) &&
     getMonth(today) === getMonth(birthday);
@@ -42,6 +44,8 @@ const handler = async (input: Webhook) => {
   try {
     const birthdays = users.filter(filterBirthdays).map(mapBirthdays);
 
+    console.log({ birthdays, users, input });
+
     for (const { id, birthday } of birthdays) {
       const age = differenceInYears(today, birthday);
       const content = `@everyone Hoje tem aniversário ! Parabenize <@${id}> pelo seus ${age} anos`;
@@ -54,13 +58,18 @@ const handler = async (input: Webhook) => {
       } = discord;
 
       const webhookUrl = `${DISCORD_BASE_URL}/${DISCORD_ID}/${DISCORD_TOKEN}`;
-      sendWebhook(webhookUrl, content);
+
+      console.log({ input, webhookUrl });
+
+      await sendWebhook(webhookUrl, content);
     }
 
     return formatJSONResponse({
       message: "successfull",
     });
-  } catch {
+  } catch (e) {
+    console.error({ error: JSON.stringify(e) });
+
     return formatJSONResponse({
       message: "error",
     });

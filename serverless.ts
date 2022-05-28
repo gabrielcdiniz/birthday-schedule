@@ -10,10 +10,17 @@ const serverlessConfiguration: AWS = {
     "serverless-esbuild",
     "serverless-offline",
     "serverless-local-schedule",
+    "serverless-deployment-bucket",
   ],
   provider: {
     name: "aws",
+    region: "us-east-1",
+    deploymentBucket: {
+      name: "lambda-${self:service}-${self:provider.stage, 'dev'}",
+      serverSideEncryption: "AES256",
+    },
     runtime: "nodejs14.x",
+    stage: "${opt:stage, 'dev'}",
     apiGateway: {
       minimumCompressionSize: 1024,
       shouldStartNameWithService: true,

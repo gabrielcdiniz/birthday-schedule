@@ -1,6 +1,11 @@
-export const formatJSONResponse = (response: Record<string, unknown>) => {
+type StatusCode = 200 | 201 | 401 | 404 | 500;
+
+export const formatJSONResponse = (
+  response: Record<string, unknown>,
+  statusCode: StatusCode = 200
+) => {
   return {
-    statusCode: 200,
+    statusCode,
     body: JSON.stringify(response),
   };
 };

@@ -2,12 +2,12 @@ export const users = [
   {
     id: BigInt("809540925767548978"),
     name: "Gabriel",
-    birthday: "2022-08-12",
+    birthday: "1997-08-12",
   },
   {
     id: BigInt("809540925767548978"),
     name: "Dummy",
-    birthday: "2022-05-27",
+    birthday: "1997-05-28",
   },
   {
     id: BigInt("965415778893594626"),

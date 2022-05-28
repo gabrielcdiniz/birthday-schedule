@@ -21,7 +21,6 @@ const serverlessConfiguration: AWS = {
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1",
       NODE_OPTIONS: "--enable-source-maps --stack-trace-limit=1000",
-      DISCORD_BASE_URL: 'https://discord.com/api/webhooks'
     },
   },
   // import the function via paths
@@ -37,6 +36,9 @@ const serverlessConfiguration: AWS = {
       define: { "require.resolve": undefined },
       platform: "node",
       concurrency: 10,
+    },
+    webhooks: {
+      discord: { baseUrl: "https://discord.com/api/webhooks" },
     },
   },
 };

@@ -8,11 +8,12 @@ const settings: SettingsFunctions = {
   events: [
     {
       schedule: {
-        rate: ["cron(0/1 * * * ? *)"],
+        rate: ["cron(0 9 * * ? *)"],
         input: {
           discord: {
             id: "${env:DISCORD_ID}",
             token: "${env:DISCORD_TOKEN}",
+            baseUrl: "${self:custom.webhooks.discord.baseUrl}"
           },
         },
       },

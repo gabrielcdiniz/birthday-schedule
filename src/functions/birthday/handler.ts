@@ -1,24 +1,70 @@
-import type { ScheduledEvent } from "aws-lambda";
 import axios from "axios";
+import {
+  differenceInYears,
+  getDate,
+  getMonth,
+  startOfDay,
+  parseISO,
+} from "date-fns";
 
 import { formatJSONResponse } from "@libs/api-gateway";
 import { middyfy } from "@libs/lambda";
 import { users } from "@data/users";
+import { Webhook } from "@t/webhook.types";
+import { UserModel } from "@t/user.types";
 
-const birthday = async (input: ScheduledEvent<{ name: string }>) => {
-  console.log("INPUT", { event: JSON.stringify(input) });
+const today = startOfDay(new Date());
 
-  const { DISCORD_ID, DISCORD_TOKEN, DISCORD_BASE_URL } = process.env;
+const checkBirthday = (user: UserModel) => {
+  const birthday = parseISO(user.birthday);
 
-  const user = users.find((u) => u.name === "Dummy");
+  const isBirthday =
+    getDate(today) === getDate(birthday) &&
+    getMonth(today) === getMonth(birthday);
 
-  const content = `@everyone Hoje tem aniversário ! Parabenize <@${user.id}>`;
-
-  axios.post(`${DISCORD_BASE_URL}/${DISCORD_ID}/${DISCORD_TOKEN}`, { content });
-
-  return formatJSONResponse({
-    message: "",
-  });
+  return isBirthday;
 };
 
-export const main = middyfy(birthday);
+const filterBirthdays = (user: UserModel) => {
+  return checkBirthday(user);
+};
+
+const mapBirthdays = ({ id, birthday }: UserModel) => ({
+  id,
+  birthday: parseISO(birthday),
+});
+
+const sendWebhook = (url: string, content: string) => {
+  return axios.post(url, { content });
+};
+
+const handler = async (input: Webhook) => {
+  try {
+    const birthdays = users.filter(filterBirthdays).map(mapBirthdays);
+
+    for (const { id, birthday } of birthdays) {
+      const age = differenceInYears(today, birthday);
+      const content = `@everyone Hoje tem aniversário ! Parabenize <@${id}> pelo seus ${age} anos`;
+
+      const { discord } = input;
+      const {
+        id: DISCORD_ID,
+        token: DISCORD_TOKEN,
+        baseUrl: DISCORD_BASE_URL,
+      } = discord;
+
+      const webhookUrl = `${DISCORD_BASE_URL}/${DISCORD_ID}/${DISCORD_TOKEN}`;
+      sendWebhook(webhookUrl, content);
+    }
+
+    return formatJSONResponse({
+      message: "successfull",
+    });
+  } catch {
+    return formatJSONResponse({
+      message: "error",
+    });
+  }
+};
+
+export const main = middyfy(handler);

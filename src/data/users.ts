@@ -1,47 +1,6 @@
 export const users = [
   {
     id: BigInt("809540925767548978"),
-    name: "Dummy",
-    birthday: "1997-05-29",
-  },
-  {
-    id: BigInt("809540925767548978"),
-    name: "Dummy",
-    birthday: "1997-05-30",
-  },
-  {
-    id: BigInt("809540925767548978"),
-    name: "Dummy",
-    birthday: "1997-05-30",
-  },
-  {
-    id: BigInt("809540925767548978"),
-    name: "Dummy",
-    birthday: "1997-05-31",
-  },
-  {
-    id: BigInt("809540925767548978"),
-    name: "Dummy",
-    birthday: "1997-05-31",
-  },
-  {
-    id: BigInt("809540925767548978"),
-    name: "Dummy",
-    birthday: "1997-05-31",
-  },
-  {
-    id: BigInt("809540925767548978"),
-    name: "Dummy",
-    birthday: "1997-05-31",
-  },
-  {
-    id: BigInt("809540925767548978"),
-    name: "Dummy",
-    birthday: "1997-05-31",
-  },
-
-  {
-    id: BigInt("809540925767548978"),
     name: "Gabriel",
     birthday: "1997-08-12",
   },
@@ -49,11 +8,6 @@ export const users = [
     id: BigInt("965415778893594626"),
     name: "Dhyon",
     birthday: "2001-02-16",
-  },
-  {
-    id: BigInt("227158720642154498"),
-    name: "Dave",
-    birthday: "1996-11-07",
   },
   {
     id: BigInt("273522835081658370"),
